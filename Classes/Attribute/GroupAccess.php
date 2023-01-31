@@ -10,7 +10,7 @@ class GroupAccess
     /**
      * @param int[] $frontendUserGroupIds
      */
-    public function __construct(public readonly array $frontendUserGroupIds)
+    public function __construct(public array $frontendUserGroupIds)
     {
         $this->isInt(...$this->frontendUserGroupIds);
     }
