@@ -43,5 +43,12 @@ class ProjectController extends ActionController
     {
         //this action is only accessible if the Frontend User has group 7 or 9 or 12
     }
+
+    #[GroupAccess([3])]
+    #[GroupAccess([5])]
+    public function listAction(): ResponseInterface
+    {
+        //this action is only accessible if the Frontend User has group 3 and 5
+    }
 }
 ````
