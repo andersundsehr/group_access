@@ -1,0 +1,77 @@
+name: Tasks
+
+on: [push, pull_request]
+
+jobs:
+  lint-php:
+    name: "php: ${{ matrix.php }} TYPO3: ${{ matrix.typo3 }}"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ '8.0', '8.1', '8.2' ]
+        typo3: [ '11', '12' ]
+        exclude:
+          - php: '7.4'
+            typo3: '12'
+          - php: '8.0'
+            typo3: '12'
+    steps:
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.composer/cache/files
+          key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.php }}-composer-
+      - run: composer require typo3/minimal="^${{ matrix.typo3 }}" --dev --ignore-platform-req=php+
+      - run: composer install --no-interaction --no-progress --ignore-platform-req=php+
+      - run: ./vendor/bin/grumphp run --ansi
+
+  ter-release:
+    name: TER release
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [ lint-php ]
+    env:
+      TYPO3_EXTENSION_KEY: 'group_access'
+      REPOSITORY_URL: 'https://github.com/andersundsehr/group_access'
+      TYPO3_API_TOKEN: ${{ secrets.TYPO3_API_TOKEN }}
+      TYPO3_API_USERNAME: ${{ secrets.TYPO3_API_USERNAME }}
+      TYPO3_API_PASSWORD: ${{ secrets.TYPO3_API_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: intl, mbstring, xml, soap, zip, curl
+
+      - name: Install typo3/tailor
+        run: composer global require typo3/tailor --prefer-dist --no-progress
+
+      - name: Upload EXT:group_access to TER
+        run: |
+          sed -i 's/\\Composer\\InstalledVersions::getPrettyVersion('\''andersundsehr\/group_access'\'')/'\''${{ steps.get_version.outputs.VERSION }}'\''/g' ext_emconf.php \
+          && git config --global user.email "no@one" \
+          && git config --global user.name "No One" \
+          && git add ext_emconf.php \
+          && git commit -m 'x' -n \
+          && git archive -o archive.zip HEAD --prefix=group_access-${{ steps.get_version.outputs.VERSION }}/ \
+          && git reset --hard HEAD~ \
+          && curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/andersundsehr/group_access/releases/tags/${{ steps.get_version.outputs.VERSION }} > release.json \
+          && php ~/.composer/vendor/bin/tailor ter:publish ${{ steps.get_version.outputs.VERSION }} --artefact=archive.zip \
+          --comment="$(cat release.json | jq -r '.name')
+
+          $(cat release.json | jq -r '.body')
+
+          $(cat release.json | jq -r '.html_url')"

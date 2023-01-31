@@ -1,0 +1,40 @@
+{
+    "name": "andersundsehr/group_access",
+    "description": "Allows to limit extbase actions ba frontend user group",
+    "type": "typo3-cms-extension",
+    "license": [
+        "GPL-2.0-or-later"
+    ],
+    "require": {
+        "typo3/cms-core": "^11.5 || ^12.0",
+        "php": "~8.0 || ~8.1 || ~8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "AUS\\GroupAccess\\": "Classes/"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "group_access"
+        },
+        "pluswerk/grumphp-config": {
+            "auto-setting": false
+        },
+        "grumphp": {
+            "config-default-path": "grumphp.yml"
+        }
+    },
+    "require-dev": {
+        "pluswerk/grumphp-config": "^5",
+        "typo3/cms-extbase": "^11.5 || ^12.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "typo3/cms-composer-installers": true,
+            "typo3/class-alias-loader": true,
+            "phpro/grumphp": true,
+            "pluswerk/grumphp-config": true
+        }
+    }
+}
