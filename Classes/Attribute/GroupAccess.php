@@ -12,10 +12,5 @@ class GroupAccess
      */
     public function __construct(public array $frontendUserGroupIds)
     {
-        $this->isInt(...$this->frontendUserGroupIds);
-    }
-
-    private function isInt(int ...$id): void
-    {
     }
 }
