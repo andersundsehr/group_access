@@ -18,13 +18,13 @@ class BeforeActionCallEventListener
         $classAttributes = $class->getAttributes(GroupAccess::class);
         $method = $class->getMethod($event->getActionMethodName());
         $methodAttributes = $method->getAttributes(GroupAccess::class);
-        if (!($classAttributes || $methodAttributes)) {
+        if (!$classAttributes && !$methodAttributes) {
             return;
         }
 
         $groupIds = $this->getCurrentUserGroupIds();
 
-        $message = 'Extbase action not allowed.';
+        $message = sprintf('Extbase "%s" action not allowed.', $event->getActionMethodName());
         $classDebugMessage = 'class Attribute allows: #[GroupAccess([%s])] given: %s';
         $this->validateAccess($classAttributes, $groupIds, $message, $classDebugMessage, $class->getFileName() ?: '', $class->getStartLine() - 1);
 
@@ -43,9 +43,6 @@ class BeforeActionCallEventListener
     /**
      * @param \ReflectionAttribute<GroupAccess>[] $attributes
      * @param int[] $groupIds
-     * @param string $message
-     * @param string $debugMessage
-     * @return void
      * @throws UnauthorizedException
      */
     protected function validateAccess(array $attributes, array $groupIds, string $message, string $debugMessage, string $file, int $line): void
@@ -58,6 +55,7 @@ class BeforeActionCallEventListener
                 if (Environment::getContext()->isDevelopment()) {
                     $message .= "\n" . sprintf($debugMessage, implode(',', $groupAccess->frontendUserGroupIds), implode(',', $groupIds));
                 }
+
                 throw new GroupAccessException($message, $file, $line);
             }
         }

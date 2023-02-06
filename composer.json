@@ -17,19 +17,14 @@
     "extra": {
         "typo3/cms": {
             "extension-key": "group_access"
-        },
-        "pluswerk/grumphp-config": {
-            "auto-setting": false
-        },
-        "grumphp": {
-            "config-default-path": "grumphp.yml"
         }
     },
     "require-dev": {
-        "pluswerk/grumphp-config": "^5",
+        "pluswerk/grumphp-config": "^6",
         "typo3/cms-extbase": "^11.5 || ^12.0",
         "saschaegerer/phpstan-typo3": "*",
-        "phpstan/extension-installer": "*"
+        "phpstan/extension-installer": "*",
+        "ssch/typo3-rector": "^1.1.3"
     },
     "config": {
         "allow-plugins": {
