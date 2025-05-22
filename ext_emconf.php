@@ -2,6 +2,7 @@
 
 use Composer\InstalledVersions;
 
+/** @var array $EM_CONF */
 /** @var string $_EXTKEY */
 $EM_CONF[$_EXTKEY] = [
     'title' => 'group_access',
@@ -9,7 +10,7 @@ $EM_CONF[$_EXTKEY] = [
     'version' => InstalledVersions::getPrettyVersion('andersundsehr/group_access'),
     'constraints' => [
         'depends' => [
-            'typo3' => '11.0.0-12.4.99',
+            'typo3' => '12.0.0-13.4.99',
         ],
     ],
     'autoload' => [

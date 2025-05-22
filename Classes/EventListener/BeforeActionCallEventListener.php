@@ -2,6 +2,8 @@
 
 namespace AUS\GroupAccess\EventListener;
 
+use ReflectionClass;
+use ReflectionAttribute;
 use AUS\GroupAccess\Attribute\GroupAccess;
 use AUS\GroupAccess\Exception\GroupAccessException;
 use TYPO3\CMS\Core\Context\Context;
@@ -14,7 +16,7 @@ class BeforeActionCallEventListener
 {
     public function __invoke(BeforeActionCallEvent $event): void
     {
-        $class = new \ReflectionClass($event->getControllerClassName());
+        $class = new ReflectionClass($event->getControllerClassName());
         $classAttributes = $class->getAttributes(GroupAccess::class);
         $method = $class->getMethod($event->getActionMethodName());
         $methodAttributes = $method->getAttributes(GroupAccess::class);
@@ -41,7 +43,7 @@ class BeforeActionCallEventListener
     }
 
     /**
-     * @param \ReflectionAttribute<GroupAccess>[] $attributes
+     * @param ReflectionAttribute<GroupAccess>[] $attributes
      * @param int[] $groupIds
      * @throws UnauthorizedException
      */
