@@ -1,11 +1,7 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method AUS\\\\GroupAccess\\\\EventListener\\\\BeforeActionCallEventListener\\:\\:getCurrentUserGroupIds\\(\\) should return array\\<int\\> but returns mixed\\.$#"
-			count: 1
-			path: Classes/EventListener/BeforeActionCallEventListener.php
-
-		-
-			message: "#^Parameter \\#1 \\$objectOrClass of class ReflectionClass constructor expects class\\-string\\<T of object\\>\\|T of object, string given\\.$#"
+			message: '#^Parameter \#1 \$objectOrClass of class ReflectionClass constructor expects class\-string\<T of object\>\|T of object, string given\.$#'
+			identifier: argument.type
 			count: 1
 			path: Classes/EventListener/BeforeActionCallEventListener.php

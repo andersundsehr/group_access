@@ -1,38 +1,38 @@
 {
-    "name": "andersundsehr/group_access",
-    "description": "Allows to limit extbase actions ba frontend user group",
-    "type": "typo3-cms-extension",
-    "license": [
-        "GPL-2.0-or-later"
-    ],
-    "require": {
-        "typo3/cms-core": "^11.5 || ^12.0",
-        "php": "~8.1 || ~8.2"
-    },
-    "autoload": {
-        "psr-4": {
-            "AUS\\GroupAccess\\": "Classes/"
-        }
-    },
-    "extra": {
-        "typo3/cms": {
-            "extension-key": "group_access"
-        }
-    },
-    "require-dev": {
-        "pluswerk/grumphp-config": "^6",
-        "typo3/cms-extbase": "^11.5 || ^12.0",
-        "saschaegerer/phpstan-typo3": "*",
-        "phpstan/extension-installer": "*",
-        "ssch/typo3-rector": "^1.1.3"
-    },
-    "config": {
-        "allow-plugins": {
-            "typo3/cms-composer-installers": true,
-            "typo3/class-alias-loader": true,
-            "phpro/grumphp": true,
-            "pluswerk/grumphp-config": true,
-            "phpstan/extension-installer": true
-        }
+  "name": "andersundsehr/group_access",
+  "description": "Allows to limit extbase actions ba frontend user group",
+  "license": [
+    "GPL-2.0-or-later"
+  ],
+  "type": "typo3-cms-extension",
+  "require": {
+    "php": "~8.3.0 || ~8.4.0",
+    "typo3/cms-core": "^13.0"
+  },
+  "require-dev": {
+    "pluswerk/grumphp-config": "^10",
+    "saschaegerer/phpstan-typo3": "^2",
+    "ssch/typo3-rector": "^3",
+    "typo3/cms-extbase": "^13.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "AUS\\GroupAccess\\": "Classes/"
     }
+  },
+  "config": {
+    "allow-plugins": {
+      "ergebnis/composer-normalize": true,
+      "phpro/grumphp": true,
+      "phpstan/extension-installer": true,
+      "pluswerk/grumphp-config": true,
+      "typo3/class-alias-loader": true,
+      "typo3/cms-composer-installers": true
+    }
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "group_access"
+    }
+  }
 }
