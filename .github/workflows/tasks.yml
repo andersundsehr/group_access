@@ -56,7 +56,7 @@ jobs:
 
       - name: Upload EXT:group_access to TER
         run: |
-          sed -i 's/\\Composer\\InstalledVersions::getPrettyVersion('\''andersundsehr\/group_access'\'')/'\''${{ steps.get_version.outputs.VERSION }}'\''/g' ext_emconf.php \
+          sed -i 's/InstalledVersions::getPrettyVersion('\''andersundsehr\/group_access'\'')/'\''${{ steps.get_version.outputs.VERSION }}'\''/g' ext_emconf.php \
           && git config --global user.email "no@one" \
           && git config --global user.name "No One" \
           && git add ext_emconf.php \
