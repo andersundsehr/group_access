@@ -9,22 +9,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '8.3', '8.4' ]
-        typo3: [ '13' ]
+        php: [ '8.3', '8.4', '8.5' ]
+        typo3: [ '13', '14' ]
     steps:
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-      - uses: actions/checkout@v4
-      - uses: actions/cache@v4
+      - uses: actions/checkout@v7
+      - uses: actions/cache@v6
         with:
           path: ~/.composer/cache/files
           key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.php }}-composer-
-      - run: composer require typo3/minimal="^${{ matrix.typo3 }}" --dev --ignore-platform-req=php+
-      - run: composer install --no-interaction --no-progress --ignore-platform-req=php+
+      - run: TYPO3_SKIP_ASSET_PUBLISH=1 composer require typo3/minimal="^${{ matrix.typo3 }}" --dev --ignore-platform-req=php+
+      - run: TYPO3_SKIP_ASSET_PUBLISH=1 composer install --no-interaction --no-progress --ignore-platform-req=php+
       - run: ./vendor/bin/grumphp run --ansi
 
   ter-release:
@@ -40,7 +40,7 @@ jobs:
       TYPO3_API_PASSWORD: ${{ secrets.TYPO3_API_PASSWORD }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Get the version
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
@@ -48,7 +48,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.4'
           extensions: intl, mbstring, xml, soap, zip, curl
 
       - name: Install typo3/tailor
