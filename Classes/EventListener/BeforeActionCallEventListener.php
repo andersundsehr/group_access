@@ -14,6 +14,10 @@ use TYPO3\CMS\Extbase\Event\Mvc\BeforeActionCallEvent;
 
 class BeforeActionCallEventListener
 {
+    public function __construct(private readonly Context $context)
+    {
+    }
+
     public function __invoke(BeforeActionCallEvent $event): void
     {
         $class = new ReflectionClass($event->getControllerClassName());
@@ -39,7 +43,7 @@ class BeforeActionCallEventListener
      */
     private function getCurrentUserGroupIds(): array
     {
-        return GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('frontend.user', 'groupIds');
+        return $this->context->getPropertyFromAspect('frontend.user', 'groupIds');
     }
 
     /**

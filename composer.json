@@ -6,14 +6,15 @@
   ],
   "type": "typo3-cms-extension",
   "require": {
-    "php": "~8.3.0 || ~8.4.0",
-    "typo3/cms-core": "^13.0"
+    "php": "~8.3.0 || ~8.4.0 || ~8.5.0",
+    "typo3/cms-core": "^13.0 || ^14.0"
   },
   "require-dev": {
-    "pluswerk/grumphp-config": "^10",
-    "saschaegerer/phpstan-typo3": "^2",
+    "pluswerk/grumphp-config": "^10 || ^11",
+    "saschaegerer/phpstan-typo3": "^2 || ^3",
     "ssch/typo3-rector": "^3",
-    "typo3/cms-extbase": "^13.0"
+    "typo3/cms-backend": "*",
+    "typo3/cms-extbase": "*"
   },
   "autoload": {
     "psr-4": {
@@ -22,6 +23,7 @@
   },
   "config": {
     "allow-plugins": {
+      "a9f/fractor-extension-installer": true,
       "ergebnis/composer-normalize": true,
       "phpro/grumphp": true,
       "phpstan/extension-installer": true,

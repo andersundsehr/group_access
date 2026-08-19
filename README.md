@@ -1,5 +1,7 @@
 # EXT:group_access
 
+> [!IMPORTANT]
+> **TYPO3 v14:** TYPO3 now provides native authorization for Extbase controller actions via the `#[Authorize]` attribute, including frontend user group checks with `requireGroups`. For TYPO3 v14 projects, we recommend using this built-in feature instead of this extension. See the [TYPO3 Core documentation for Feature #107826](https://docs.typo3.org/permalink/changelog:feature-107826-1766220191) for details and examples. This extension remains useful for projects that need the same functionality on TYPO3 v13.
 
 ## install
 
